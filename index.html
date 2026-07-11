@@ -54,17 +54,32 @@
       var buildUrl = "Build";
       var loaderUrl = buildUrl + "/web.loader.js";
       var config = {
-        arguments: [],
-        dataUrl: buildUrl + "/web.data",
-        frameworkUrl: buildUrl + "/web.framework.js",
-        codeUrl: buildUrl + "/web.wasm",
-        streamingAssetsUrl: "StreamingAssets",
-        companyName: "DefaultCompany",
-        productName: "Scout Codes",
-        productVersion: "1.0",
-        showBanner: unityShowBanner,
-      };
+    arguments: [],
+    dataUrl: buildUrl + "/web.data",
+    frameworkUrl: buildUrl + "/web.framework.js",
+    codeUrl: buildUrl + "/web.wasm",
+    streamingAssetsUrl: "StreamingAssets",
+    companyName: "DefaultCompany",
+    productName: "Scout Codes",
+    productVersion: "1.0",
+    showBanner: unityShowBanner,
 
+    // ADD THIS CUSTOM CACHE CONTROL TO PREVENT THE CRASH
+    cacheControl: function(url) {
+      // If the url is undefined or not a string, return a safe default
+      if (!url || typeof url !== 'string') {
+        return 'no-cache';
+      }
+
+      // Apply Unity's standard caching rules for static files
+      if (url.match(/\.data$/)) return 'must-revalidate';
+      if (url.match(/\.wasm$/)) return 'must-revalidate';
+      if (url.match(/\.framework\.js$/)) return 'must-revalidate';
+    
+      // For everything else, don't cache (or use 'no-cache')
+      return 'no-cache';
+    }
+  };
       // By default, Unity keeps WebGL canvas render target size matched with
       // the DOM size of the canvas element (scaled by window.devicePixelRatio)
       // Set this to false if you want to decouple this synchronization from
