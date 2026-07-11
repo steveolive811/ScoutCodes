@@ -64,7 +64,7 @@
   productVersion: "1.0",
   showBanner: unityShowBanner,
 
-  // ADD THIS CUSTOM CACHE CONTROL TO PREVENT THE CRASH
+  // ADD THIS CUSTOM CACHE CONTROL TO FIX THE ERROR
   cacheControl: function(url) {
     // If the url is undefined or not a string, return a safe default
     if (!url || typeof url !== 'string') {
@@ -76,7 +76,7 @@
     if (url.match(/\.wasm$/)) return 'must-revalidate';
     if (url.match(/\.framework\.js$/)) return 'must-revalidate';
     
-    // For everything else, don't cache (or use 'no-cache')
+    // For everything else, don't cache
     return 'no-cache';
   }
 };
